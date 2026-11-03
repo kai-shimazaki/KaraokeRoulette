@@ -70,10 +70,20 @@ button:disabled {
 
 <h1>カラオケお題ルーレット</h1>
 
+<button id="spinButton" onclick="spin()">
+お題を決める
+</button>
+
+<div id="result">
+ここに結果が表示されます
+</div>
+
 <p>
 「#」から始まる行は見出し、<br>
 「//」から始まる行は一時除外です。
 </p>
+
+<div id="count"></div>
 
 <textarea id="list">
 #アーティスト縛り
@@ -92,18 +102,7 @@ Mrs. GREEN APPLE
 か行から始まる曲名
 </textarea>
 
-<div id="count"></div>
-
-<button id="spinButton" onclick="spin()">
-お題を決める
-</button>
-
-<div id="result">
-ここに結果が表示されます
-</div>
-
 <script>
-
 const list = document.getElementById("list");
 const count = document.getElementById("count");
 const result = document.getElementById("result");
