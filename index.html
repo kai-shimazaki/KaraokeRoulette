@@ -1,1 +1,170 @@
-GitHub成功
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>カラオケお題ルーレット</title>
+
+<style>
+
+body {
+    font-family: sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+h1 {
+    font-size: 28px;
+}
+
+textarea {
+    box-sizing: border-box;
+    width: 100%;
+    height: 350px;
+    padding: 12px;
+    font-size: 16px;
+    line-height: 1.6;
+    border: 2px solid #cccccc;
+    border-radius: 8px;
+    resize: vertical;
+}
+
+button {
+    margin-top: 15px;
+    padding: 14px 30px;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    background-color: #1976d2;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+button:disabled {
+    background-color: #999999;
+}
+
+#result {
+    min-height: 70px;
+    margin-top: 25px;
+    font-size: 34px;
+    font-weight: bold;
+    color: #d32f2f;
+}
+
+#count {
+    margin: 10px 0;
+    color: #555555;
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>カラオケお題ルーレット</h1>
+
+<p>
+「#」から始まる行は見出し、<br>
+「//」から始まる行は一時除外です。
+</p>
+
+<textarea id="list">
+#アーティスト縛り
+あいみょん
+Novelbright
+Mrs. GREEN APPLE
+
+#アニメ縛り
+ドラえもん
+名探偵コナン
+ワンピース
+
+#曲名縛り
+曲名5文字
+曲名漢字のみ
+か行から始まる曲名
+</textarea>
+
+<div id="count"></div>
+
+<button id="spinButton" onclick="spin()">
+お題を決める
+</button>
+
+<div id="result">
+ここに結果が表示されます
+</div>
+
+<script>
+
+const list = document.getElementById("list");
+const count = document.getElementById("count");
+const result = document.getElementById("result");
+const spinButton = document.getElementById("spinButton");
+
+function getItems() {
+    return list.value
+        .split("\n")
+        .map(line => line.trim())
+        .filter(line => line !== "")
+        .filter(line => !line.startsWith("#"))
+        .filter(line => !line.startsWith("//"));
+}
+
+function updateCount() {
+    const items = getItems();
+    count.textContent = "現在の候補数： " + items.length;
+}
+
+function spin() {
+
+    const items = getItems();
+
+    if (items.length === 0) {
+        result.textContent = "候補がありません";
+        return;
+    }
+
+    spinButton.disabled = true;
+
+    let numberOfChanges = 0;
+
+    const timer = setInterval(function () {
+
+        const temporaryItem =
+            items[Math.floor(Math.random() * items.length)];
+
+        result.textContent = "抽選中： " + temporaryItem;
+
+        numberOfChanges++;
+
+        if (numberOfChanges >= 10) {
+
+            clearInterval(timer);
+
+            const winner =
+                items[Math.floor(Math.random() * items.length)];
+
+            result.textContent = "今回のお題： " + winner;
+
+            spinButton.disabled = false;
+        }
+
+    }, 100);
+}
+
+list.addEventListener("input", updateCount);
+
+updateCount();
+
+</script>
+
+</body>
+</html>
