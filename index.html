@@ -56,6 +56,7 @@ button:disabled {
     font-size: 34px;
     font-weight: bold;
     color: #d32f2f;
+    white-space: pre-line;
 }
 
 #count {
@@ -119,7 +120,7 @@ function getItems() {
 
 function updateCount() {
     const items = getItems();
-    count.textContent = "現在の候補数： " + items.length;
+    count.textContent = "現在の候補数： " + items.length + "件";
 }
 
 function spin() {
@@ -137,10 +138,9 @@ function spin() {
 
     const timer = setInterval(function () {
 
-        const temporaryItem =
-            items[Math.floor(Math.random() * items.length)];
+        const temporaryItem =items[Math.floor(Math.random() * items.length)];
 
-        result.textContent = "抽選中： " + temporaryItem;
+        result.textContent = "抽選中\n" + temporaryItem;
 
         numberOfChanges++;
 
@@ -148,10 +148,9 @@ function spin() {
 
             clearInterval(timer);
 
-            const winner =
-                items[Math.floor(Math.random() * items.length)];
+            const winner =items[Math.floor(Math.random() * items.length)];
 
-            result.textContent = "今回のお題： " + winner;
+            result.textContent = "今回のお題\n" + winner;
 
             spinButton.disabled = false;
         }
